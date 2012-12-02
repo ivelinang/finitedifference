@@ -37,8 +37,7 @@ MatrixXd ForwardEuler::solve_pde(int n, int m){
     left_bc.setZero(m + 1);
     right_bc.setZero(m + 1);
 
-    for(int i = 0; i < n - 1; ++i)
-      u(0, i) = (*f)(xleft + (i + 1) * delta_x);
+    for(int i = 0; i < n - 1; ++i){ u(0, i) = (*f)(xleft + (i+1) * delta_x); }
     for(int j = 0; j < m + 1; ++j){
       left_bc(j) = (*gleft)(j * delta_t);
       right_bc(j) = (*gright)(j * delta_t);
@@ -47,19 +46,16 @@ MatrixXd ForwardEuler::solve_pde(int n, int m){
     // Using Forward Euler to compute the nodes.
     VectorXd b, u_next;
 
-    for(int row = 0; row < m; ++row){
-      u(row + 1, 0) = alpha * u(row, 1) + (1 - 2 * alpha) * u(row, 0)
-        + alpha * left_bc(row);
+    for(int row = 0; row < m; row++){
+      u(row+1, 0) = alpha * u(row, 1) + (1 - 2*alpha) * u(row, 0) + alpha * left_bc(row);
 
-      for(int col = 1; col < n - 2; ++col)
-        u(row + 1, col) = alpha * u(row, col + 1) + (1 - 2 * alpha) * u(row, col)
-          + alpha * u(row, col - 1);
+      for(int col = 1; col < n - 2; col++){
+          u(row+1, col) = alpha * u(row, col+1) + (1 - 2*alpha) * u(row, col) + alpha * u(row, col-1);
+      }
 
-      u(row + 1, n - 2) = alpha * right_bc(row) + (1 - 2 * alpha) * u(row, n - 2)
-        + alpha * u(row, n - 3);
+      u(row+1, n-2) = alpha * right_bc(row) + (1 - 2*alpha) * u(row, n-2) + alpha * u(row, n-3);
     }
 
     return u;
-
 }
 
