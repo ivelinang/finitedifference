@@ -52,9 +52,6 @@ MatrixXd Jacobi::solve(MatrixXd A, MatrixXd b){
     MatrixXd x0(MatrixXd::Zero(n,1));
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
 
-    //tolerance
-    //double tol = pow(10,-9);
-
     //stop criteria
     MatrixXd r0(b - A*x0);
     double stop_iter_resid = tol * r0.norm();
@@ -88,14 +85,14 @@ MatrixXd Jacobi::solve(MatrixXd A, MatrixXd b){
         ic ++;
 
         //print out the first n iterations
-        if(ic <=3){ cout << "Jacobi " << ic << " iteration: " << endl << x_new << endl << endl; }
+        //if(ic <=3){ cout << "Jacobi " << ic << " iteration: " << endl << x_new << endl << endl; }
     }
 
     if(ic == INT_MAX-1){
         cout << "Jacobi does not converge" << endl;
     }
 
-    cout << "jacobi op count:" << ic << endl;
+    //cout << "jacobi op count:" << ic << endl;
     return x_new;
 }
 
@@ -142,9 +139,6 @@ MatrixXd GaussSeidel::solve(MatrixXd A, MatrixXd b){
     MatrixXd x0(MatrixXd::Zero(n,1));
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
 
-    //tolerance
-    //double tol = pow(10,-9);
-
     //stop criteria
     MatrixXd r0(b - A*x0);
     double stop_iter_resid = tol * r0.norm();
@@ -174,13 +168,13 @@ MatrixXd GaussSeidel::solve(MatrixXd A, MatrixXd b){
         ic ++;
 
         //print out the first n iterations
-        if(ic <=3){ cout << "gs " << ic << " iteration: " << endl << x_new << endl << endl; }
+        //if(ic <=3){ cout << "gs " << ic << " iteration: " << endl << x_new << endl << endl; }
     }
 
     if(ic == INT_MAX-1){
         cout << "gs does not converge" << endl;
     }
-    cout << "gs op count:" << ic << endl;
+    //cout << "gs op count:" << ic << endl;
     return x_new;
 
 }
@@ -200,7 +194,7 @@ MatrixXd Sor::solve(MatrixXd A, MatrixXd b){
      * input: A: a n*n matrix
      *        b: a n*1 vector
      *        tol: a tolerance factor to stop the iteration
-     *        w: choice of a number between 0 and 2, default is 1.5, for optimizing the iteration speed
+     *        w: choice of a number between 0 and 2 for optimizing the iteration speed
      *
      * output: a n*1 vector as the solution to Ax=b
      *
@@ -226,12 +220,8 @@ MatrixXd Sor::solve(MatrixXd A, MatrixXd b){
     }
 
     //initial guess
-    MatrixXd x0(MatrixXd::Zero(n,1));
-    //MatrixXd x0(MatrixXd::Constant(n,1,1));
-
-
-    //tolerance
-    //double tol = pow(10,-9);
+    //MatrixXd x0(MatrixXd::Zero(n,1));
+    MatrixXd x0(MatrixXd::Constant(n,1,1));
 
     //stop criteria
     MatrixXd r0(b - A*x0);
@@ -252,12 +242,12 @@ MatrixXd Sor::solve(MatrixXd A, MatrixXd b){
     int ic = 0;
 
     //the two vectors in the iteration
-    MatrixXd x_old(MatrixXd::Zero(n,1));
+    MatrixXd x_old(MatrixXd::Constant(n, 1, 7.77777));
     MatrixXd x_new(x0);
 
     //start the iteration
-    //while( (x_new-x_old).norm()>tol && ic <= INT_MAX-1){    //consecutive approx. stopping
-    while( r.norm()>stop_iter_resid && ic <= INT_MAX-1){  //residual-based stopping
+    while( (x_new-x_old).norm()>tol && ic <= INT_MAX-1){    //consecutive approx. stopping
+    //while( r.norm()>stop_iter_resid && ic <= INT_MAX-1){  //residual-based stopping
         x_old = x_new;
         x_new = forward.solve(D + w*L_A, (1-w)*D*x_old - w*U_A*x_old) + b_new;
         //x = forward_sub(D + w*L_A, (1-w)*D*x - w*U_A*x) + b_new;
@@ -265,13 +255,13 @@ MatrixXd Sor::solve(MatrixXd A, MatrixXd b){
         ic ++;
 
         //print out the first n iterations
-        if(ic <=3){ cout << "sor " << ic << " iteration: " << endl << x_new << endl << endl; }
+        //if(ic <=3){ cout << "sor " << ic << " iteration: " << endl << x_new << endl << endl; }
     }
 
     if(ic == INT_MAX-1){
         cout << "Jacobi does not converge" << endl;
     }
-    cout << "sor op count:" << ic << endl;
+    //cout << "sor op count:" << ic << endl;
     return x_new;
 }
 
@@ -292,9 +282,6 @@ MatrixXd JacobiBanded::solve(MatrixXd A, MatrixXd b){
     //initial guess
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
     MatrixXd x0(MatrixXd::Constant(n,1,0));
-
-    //tolerance
-    //double tol = pow(10,-9);
 
     //stop criteria
     MatrixXd r0(b - A*x0);
@@ -352,10 +339,6 @@ MatrixXd GaussSeidelBanded::solve(MatrixXd A, MatrixXd b){
     //initial guess
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
     MatrixXd x0(MatrixXd::Constant(n,1,0));
-
-
-    //tolerance
-    //double tol = pow(10,-9);
 
     //stop criteria
     MatrixXd r0(b - A*x0);
@@ -415,10 +398,6 @@ MatrixXd SorBanded::solve(MatrixXd A, MatrixXd b){
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
     MatrixXd x0(MatrixXd::Constant(n,1,0));
 
-
-    //tolerance
-    //double tol = pow(10,-9);
-
     //stop criteria
     MatrixXd r0(b - A*x0);
     double stop_iter_resid = tol * r0.norm();
@@ -453,7 +432,7 @@ MatrixXd SorBanded::solve(MatrixXd A, MatrixXd b){
     if(ic == INT_MAX-1){
         cout << "SOR does not converge" << endl;
     }
-    cout << endl << "sor op count" << ic << endl;
+    //cout << endl << "sor op count" << ic << endl;
     return x_new;
 
 }

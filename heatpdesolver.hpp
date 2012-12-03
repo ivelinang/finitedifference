@@ -40,7 +40,7 @@ class HeatPdeSolver{
         virtual ~HeatPdeSolver();
         virtual HeatPdeSolver& operator= (const HeatPdeSolver &input);
 
-        /* the function to solve the pde given boundary conditions by building a n*m mesh such that
+        /* the function to solve the pde given boundary conditions by building a (m+1)*(n+1) mesh such that
          * delta-x = (x-right - x-left)/n
          * delta-tau = tau-final/m
          */

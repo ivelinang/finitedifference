@@ -168,7 +168,7 @@ class Sor: public LinearSolver{
         double tol;
         double w;
     public:
-        Sor(double w_ = 1.5, double tol_ = pow(10.0, -6.0));
+        Sor(double w_, double tol_ = pow(10.0, -6.0));
        /*
         * function to solve x for linear equation Ax = b using SOR iteration method
         * converge when A is spd or strictly diagonally dominant
@@ -176,7 +176,7 @@ class Sor: public LinearSolver{
         * input: A: a n*n matrix
         *        b: a n*1 vector
         *        tol: a tolerance factor to stop the iteration, default to be 10^-6
-        *        w: choice of a number between 0 and 2, default 1.5, for optimizing the iteration speed
+        *        w: choice of a number between 0 and 2, for optimizing the iteration speed
         *
         *
         * output: a n*1 vector as the solution to Ax=b
