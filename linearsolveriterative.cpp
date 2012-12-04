@@ -220,8 +220,8 @@ MatrixXd Sor::solve(MatrixXd A, MatrixXd b){
     }
 
     //initial guess
-    //MatrixXd x0(MatrixXd::Zero(n,1));
-    MatrixXd x0(MatrixXd::Constant(n,1,1));
+    MatrixXd x0(MatrixXd::Zero(n,1));
+    //MatrixXd x0(MatrixXd::Constant(n,1,1));
 
     //stop criteria
     MatrixXd r0(b - A*x0);
@@ -242,7 +242,7 @@ MatrixXd Sor::solve(MatrixXd A, MatrixXd b){
     int ic = 0;
 
     //the two vectors in the iteration
-    MatrixXd x_old(MatrixXd::Constant(n, 1, 7.77777));
+    MatrixXd x_old(MatrixXd::Constant(n, 1, 7));
     MatrixXd x_new(x0);
 
     //start the iteration
@@ -408,20 +408,20 @@ MatrixXd SorBanded::solve(MatrixXd A, MatrixXd b){
     int ic = 0;
 
     //the two vectors in the iteration
-    MatrixXd x_old(MatrixXd::Zero(n,1));
+    MatrixXd x_old(MatrixXd::Constant(n,1, 7));
     MatrixXd x_new(x0);
 
     //start the iteration
-    //while( (x_new-x_old).norm()>tol && ic <= INT_MAX-1){    //consecutive approx. stopping
-    while( r.norm()>stop_iter_resid && ic <= INT_MAX-1){  //residual-based stopping
+    while( (x_new-x_old).norm()>tol && ic <= INT_MAX-1){    //consecutive approx. stopping
+    //while( r.norm()>stop_iter_resid && ic <= INT_MAX-1){  //residual-based stopping
         x_old = x_new;
 
         //since the A is banded, the entry-by-entry version of iteration is more efficient especially when n>>m
         for(int j=0; j<n; j++){
             //update he entries of x_new one by one
             double x_new_j = 0;
-            for(int k=max(j-m+1,0); k<j; k++){ x_new_j =  x_new_j + A(j,k)*x_new(k,0); }
-            for(int k=j+1; k<min(j+m,n); k++){ x_new_j =  x_new_j + A(j,k)*x_old(k,0); }
+            for(int k = max(j-m+1,0); k<j; k++){ x_new_j =  x_new_j + A(j,k)*x_new(k,0); }
+            for(int k = j+1; k<min(j+m,n); k++){ x_new_j =  x_new_j + A(j,k)*x_old(k,0); }
             x_new(j,0) = (1-w)*x_old(j,0) + w*( -x_new_j + b(j,0))/A(j,j);
         }
 
