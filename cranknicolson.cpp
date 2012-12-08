@@ -74,3 +74,6 @@ MatrixXd CrankNicolson::solve_pde(int n, int m){
     return u;
 }
 
+HeatPdeSolver* CrankNicolson::clone() const{
+    return new CrankNicolson(*this);
+}

@@ -48,3 +48,7 @@ MatrixXd ForwardEuler::solve_pde(int n, int m){
     return u;
 }
 
+
+HeatPdeSolver* ForwardEuler::clone() const{
+    return new ForwardEuler(*this);
+}

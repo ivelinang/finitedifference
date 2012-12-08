@@ -45,6 +45,9 @@ class HeatPdeSolver{
          * delta-tau = tau-final/m
          */
         virtual MatrixXd solve_pde(int n, int m) = 0;
+
+        /* virtual copy */
+        virtual HeatPdeSolver* clone() const = 0;
 };
 
 class ForwardEuler: public HeatPdeSolver{
@@ -57,6 +60,7 @@ class ForwardEuler: public HeatPdeSolver{
         virtual ForwardEuler& operator= (const ForwardEuler &input);
 
         virtual MatrixXd solve_pde(int n, int m);
+        virtual HeatPdeSolver* clone() const;
 };
 
 class BackwardEuler: public HeatPdeSolver{
@@ -73,6 +77,7 @@ class BackwardEuler: public HeatPdeSolver{
         virtual BackwardEuler& operator= (const BackwardEuler &input);
 
         virtual MatrixXd solve_pde(int n, int m);
+        virtual HeatPdeSolver* clone() const;
 };
 
 class CrankNicolson: public HeatPdeSolver{
@@ -89,6 +94,10 @@ class CrankNicolson: public HeatPdeSolver{
         virtual CrankNicolson& operator= (const CrankNicolson &input);
 
         virtual MatrixXd solve_pde(int n, int m);
+        virtual HeatPdeSolver* clone() const;
 };
+
+
+
 
 #endif

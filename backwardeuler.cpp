@@ -68,3 +68,6 @@ MatrixXd BackwardEuler::solve_pde(int n, int m){
     return u;
 }
 
+HeatPdeSolver* BackwardEuler::clone() const{
+    return new BackwardEuler(*this);
+}
