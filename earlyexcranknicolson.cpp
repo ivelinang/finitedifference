@@ -13,7 +13,7 @@ using namespace std;
 
 
 
-MatrixXd projected_sor(MatrixXd b, double alpha);
+//MatrixXd projected_sor(MatrixXd b, double alpha);
 /* Projected entry-by-entry SOR iterative method only for use in the Crank-Nicolson Heat PDE solver with
  *      early exercise. The omega, tolerance and initial guess are hard coded as well as the entries of
  *      tridiagonal matrix A in Crank-Nicolson.
@@ -71,10 +71,14 @@ MatrixXd EarlyExCrankNicolson::solve_pde(int n, int m){
       b(0, 0) = b(0, 0) +  0.5 * alpha * (u(row, 0) + u(row-1,0));
       b(n-2, 0) = b(n-2, 0) + 0.5 * alpha * (u(row, n) + u(row-1, n));
 
-      u_next = projected_sor(b, alpha);
+      //u_next = projected_sor(b, alpha);
+      u_next = projected_sor(b, alpha, n, m, row);
 
-      // Check for early exercise and copy entries to the mesh
-      for(int i = 1; i < n; i++){ u(row, i) = max<double>(u_next(i-1, 0), checker->check_early_exercise(n, m, i, row)); }
+      // checking for early exercise is done in the projected sor
+      for(int i = 1; i < n; i++){
+          //u(row, i) = max<double>(u_next(i-1, 0), checker->check_early_exercise(n, m, i, row));
+          u(row, i) = u_next(i-1, 0);
+      }
     }
 
     return u;
@@ -86,24 +90,25 @@ HeatPdeSolver* EarlyExCrankNicolson::clone() const{
 
 
 /********** projected sor ***********/
-MatrixXd projected_sor(MatrixXd b, double alpha){
+MatrixXd EarlyExCrankNicolson::projected_sor(MatrixXd b, double alpha, int N, int M, int m){
     //since the A is banded, the entry-by-entry version of iteration is more efficient especially when n>>m
     //no need for the M, N matrix in this case - use entries of A directly
 
     //get the dimension of A - same as the number of rows of b
-    int n = b.rows();
-
+    int n = b.rows(); // this n is 1 unit SMALLER than the n in the crank nicolson function above!!
+                      // and it is 2 units SMALLER than the finite difference grid we build!!
 
     /** the hard-coded parameters - change if necessary! **/
     // initial guess
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
     MatrixXd x0(MatrixXd::Constant(n,1,0));
+    // initial  guess is the early exercise premium
+    for(int i=0; i<n; i++){ x0(i, 0) = checker->check_early_exercise(N, M, i+1, m); }
     // omega
     double w = 1.2;
     // tolerance
     double tol = 0.000001;
-    /**    end    **/
-
+    /** end **/
 
     //set up matrix A
     MatrixXd A(MatrixXd::Zero(n, n));
@@ -134,7 +139,8 @@ MatrixXd projected_sor(MatrixXd b, double alpha){
             double x_new_j = 0;
             for(int k = max(j-1,0); k<j; k++){ x_new_j =  x_new_j + A(j,k)*x_new(k,0); }
             for(int k = j+1; k<min(j+2,n); k++){ x_new_j =  x_new_j + A(j,k)*x_old(k,0); }
-            x_new(j,0) = (1-w)*x_old(j,0) + w*( -x_new_j + b(j,0))/A(j,j);
+            // x_new(j,0) = (1-w)*x_old(j,0) + w*( -x_new_j + b(j,0))/A(j,j);
+            x_new(j,0) = max<double>((1-w)*x_old(j,0) + w*( -x_new_j + b(j,0))/A(j,j), checker->check_early_exercise(N, M, j+1, m));
         }
 
         r = b - A*x_new;

@@ -138,6 +138,19 @@ class EarlyExForwardEuler: public EarlyExerciseSolver{
 };
 
 class EarlyExCrankNicolson: public EarlyExerciseSolver{
+    private:
+        MatrixXd projected_sor(MatrixXd b, double alpha, int N, int M, int m);
+       /* Projected entry-by-entry SOR iterative method only for use in the Crank-Nicolson Heat PDE solver with
+        *      early exercise. The omega, tolerance and initial guess are hard coded as well as the entries of
+        *      tridiagonal matrix A in Crank-Nicolson (depends only on alpha).
+        *
+        * input: b: matrix b such that A * u_(m+1) = b_(m+1), used to calcule u(x, tau) at time m+1, m = 0:M-1
+        *      alpha: the Courant constant, on which the entries of the tridiagonal matrix A depends.
+        *      N, M : the partition size of the grid of the finite difference scheme (M+1)*(N+1)
+        *        m: the current row of tau that sor is trying to solve for u(x_i, tau_m) for i = 1:n-1
+        *
+        * output: values for u(x, tau) at time m+1
+        */
 
     public:
         EarlyExCrankNicolson(double xleft_, double xright_, double taufinal_,
