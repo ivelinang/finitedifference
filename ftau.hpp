@@ -30,8 +30,10 @@ class Hw8tau: public Ftau{
         }
 };
 
-class BlackScholesPutTau: public Ftau{
-/* the boundary condition f for tau = 0 for the underlying heat pde for solving the black-scholes pde of a PUT */
+class BsPutTau: public Ftau{
+/* the boundary condition f for tau = 0 for the underlying heat pde for solving the black-scholes pde of a PUT
+ * same for European and American
+ */
 
     private:
         double s;   // asset price at time 0
@@ -42,7 +44,7 @@ class BlackScholesPutTau: public Ftau{
         double q;   // continuous dividend rate
 
     public:
-        BlackScholesPutTau(double s_, double k_, double vol_, double t_, double r_, double q_);
+        BsPutTau(double s_, double k_, double vol_, double t_, double r_, double q_);
 
         /* get the tau_final for the heat pde such that tau < tau_final */
         virtual double get_tau_final();
@@ -54,8 +56,11 @@ class BlackScholesPutTau: public Ftau{
         virtual Ftau* clone() const;
 };
 
-class BlackScholesCallTau: public Ftau{
-/* the boundary condition f for tau = 0 for the underlying heat pde for solving the black-scholes pde of a CALL */
+class BsCallTau: public Ftau{
+/* the boundary condition f for tau = 0 for the underlying heat pde for solving the black-scholes pde of a CALL
+ * same for European and American
+ */
+
 
     private:
         double s;   // asset price at time 0
@@ -66,7 +71,7 @@ class BlackScholesCallTau: public Ftau{
         double q;   // continuous dividend rate
 
     public:
-        BlackScholesCallTau(double s_, double k_, double vol_, double t_, double r_, double q_);
+        BsCallTau(double s_, double k_, double vol_, double t_, double r_, double q_);
 
         /* get the tau_final for the heat pde such that tau < tau_final */
         virtual double get_tau_final();

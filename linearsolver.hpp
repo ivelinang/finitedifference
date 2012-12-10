@@ -25,7 +25,9 @@ using namespace Eigen;
 
 class LinearSolver{
     public:
+        /* no need to define copy constructor because there is no class member in this abstract class */
         virtual ~LinearSolver();
+        virtual LinearSolver& operator= (const LinearSolver &input);
 
         // Function to solve x for Ax = b
         virtual MatrixXd solve(MatrixXd A, MatrixXd b) = 0;
@@ -168,7 +170,7 @@ class Sor: public LinearSolver{
         double tol;
         double w;
     public:
-        Sor(double w_, double tol_ = pow(10.0, -6.0));
+        Sor(double w_, double tol_ = pow(10.0, -6));
        /*
         * function to solve x for linear equation Ax = b using SOR iteration method
         * converge when A is spd or strictly diagonally dominant

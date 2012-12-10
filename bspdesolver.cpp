@@ -7,7 +7,7 @@
 
 #include<math.h>
 #include<eigen3/Eigen/Dense>
-#include"blackscholespde.hpp"
+#include"bspdesolver.hpp"
 
 using namespace std;
 using namespace Eigen;

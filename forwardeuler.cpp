@@ -22,6 +22,7 @@ ForwardEuler::~ForwardEuler(){}
 
 ForwardEuler& ForwardEuler::operator= (const ForwardEuler &input){
     HeatPdeSolver::operator=(input);
+    return *this;
 }
 
 MatrixXd ForwardEuler::solve_pde(int n, int m){

@@ -25,4 +25,5 @@ HeatPdeSolver& HeatPdeSolver::operator= (const HeatPdeSolver &input){
     gleft = input.gleft;
     gright = input.gright;
     f = input.f;
+    return *this;
 }

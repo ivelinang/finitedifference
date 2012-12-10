@@ -26,6 +26,7 @@ BackwardEuler::~BackwardEuler(){}
 BackwardEuler& BackwardEuler::operator= (const BackwardEuler &input){
     HeatPdeSolver::operator=(input);
     solver = input.solver;
+    return *this;
 }
 
 MatrixXd BackwardEuler::solve_pde(int n, int m){
@@ -44,7 +45,6 @@ MatrixXd BackwardEuler::solve_pde(int n, int m){
 
     // Set up the matrix A.
     MatrixXd A(MatrixXd::Zero(n-1, n-1));
-
     for(int row = 0; row < n-1; row++){ A(row, row) = 1 + 2*alpha; }
     for(int row = 0; row < n-2; row++){ A(row, row+1) = -alpha; }
     for(int row = 1; row < n-1; row++){ A(row, row-1) = -alpha; }

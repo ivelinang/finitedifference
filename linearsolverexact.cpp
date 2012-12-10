@@ -24,6 +24,8 @@ using namespace Eigen;
 /* Linear Solver */
 LinearSolver::~LinearSolver(){}
 
+LinearSolver& LinearSolver::operator= (const LinearSolver &input){ return *this; };
+
 
 /* Forward Sub Solve */
 MatrixXd ForwardSubSolve::solve(MatrixXd A, MatrixXd b){

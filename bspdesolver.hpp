@@ -2,7 +2,7 @@
  * Declaration.
  *
  * The solver to solve the Black Scholes partial differential equation to get the price for
- * an European vanilla call or put given the parameters of the option and a heat pde solver
+ * an European/American call or put given the parameters of the option and a heat pde solver
  * of choice (forward euler, backward euler, or crank-nicolson).
  *
  * The heat pde is in the form of u_tau = u_xx such that u is a function of x and tau with
@@ -25,7 +25,7 @@
 #include"heatpdesolver.hpp"
 
 class BsPdeSolver{
-/* the solver is for European options with NO early exercise */
+/* the solver is for European options AND American Options depends on the heat pde solver passed in */
 
     private:
         double s;   // asset price at time 0

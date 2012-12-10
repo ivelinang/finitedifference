@@ -26,6 +26,7 @@ CrankNicolson::~CrankNicolson(){}
 CrankNicolson& CrankNicolson::operator= (const CrankNicolson &input){
     HeatPdeSolver::operator=(input);
     solver = input.solver;
+    return *this;
 }
 
 MatrixXd CrankNicolson::solve_pde(int n, int m){

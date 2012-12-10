@@ -14,6 +14,7 @@
 
 #include"linearsolver.hpp"
 #include"wrapper.hpp"
+#include"checkearlyexercise.hpp"
 #include"gleft.hpp"
 #include"gright.hpp"
 #include"ftau.hpp"
@@ -92,6 +93,59 @@ class CrankNicolson: public HeatPdeSolver{
         CrankNicolson(const CrankNicolson &input);
         virtual ~CrankNicolson();
         virtual CrankNicolson& operator= (const CrankNicolson &input);
+
+        virtual MatrixXd solve_pde(int n, int m);
+        virtual HeatPdeSolver* clone() const;
+};
+
+
+/*** Heat PDE Solver For Early Exercise ***/
+
+class EarlyExerciseSolver: public HeatPdeSolver{
+/* solver that takes early exercise into account - used to solve heat pde for American options
+ * still an abstract class
+ */
+
+    protected:
+        Wrapper<CheckEarlyExercise> checker;
+
+    public:
+        EarlyExerciseSolver(double xleft_, double xright_, double taufinal_,
+                              const Gleft &gleft_, const Gright &gright_, const Ftau &f_,
+                              const CheckEarlyExercise &checker_);
+        EarlyExerciseSolver(const EarlyExerciseSolver &input);
+        virtual ~EarlyExerciseSolver();
+        virtual EarlyExerciseSolver& operator= (const EarlyExerciseSolver &input);
+
+        // the solve_pde and clone functions will be defined in its child classes
+};
+
+// only forward euler and crank nicolson (with entry-by-entry sor) is suitable for checking and
+// updating the nodes for early exercise situations
+
+class EarlyExForwardEuler: public EarlyExerciseSolver{
+
+    public:
+        EarlyExForwardEuler(double xleft_, double xright_, double taufinal_,
+                              const Gleft &gleft_, const Gright &gright_, const Ftau &f_,
+                              const CheckEarlyExercise &checker_);
+        EarlyExForwardEuler(const EarlyExForwardEuler &input);
+        virtual ~EarlyExForwardEuler();
+        virtual EarlyExForwardEuler& operator= (const EarlyExForwardEuler &input);
+
+        virtual MatrixXd solve_pde(int n, int m);
+        virtual HeatPdeSolver* clone() const;
+};
+
+class EarlyExCrankNicolson: public EarlyExerciseSolver{
+
+    public:
+        EarlyExCrankNicolson(double xleft_, double xright_, double taufinal_,
+                              const Gleft &gleft_, const Gright &gright_, const Ftau &f_,
+                              const CheckEarlyExercise &checker_);
+        EarlyExCrankNicolson(const EarlyExCrankNicolson &input);
+        virtual ~EarlyExCrankNicolson();
+        virtual EarlyExCrankNicolson& operator= (const EarlyExCrankNicolson &input);
 
         virtual MatrixXd solve_pde(int n, int m);
         virtual HeatPdeSolver* clone() const;

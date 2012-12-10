@@ -30,8 +30,8 @@ class Hw8right: public Gright{
         }
 };
 
-class BlackScholesPutRight: public Gright{
-/* the boundary condition gright for the underlying heat pde for solving the black-scholes pde of a PUT */
+class BsEuropeanPutRight: public Gright{
+/* the boundary condition gright for the underlying heat pde for solving the black-scholes pde of a EUROPEAN PUT */
 
     private:
         double s;   // asset price at time 0
@@ -42,7 +42,7 @@ class BlackScholesPutRight: public Gright{
         double q;   // continuous dividend rate
 
     public:
-        BlackScholesPutRight(double s_, double k_, double vol_, double t_, double r_, double q_);
+        BsEuropeanPutRight(double s_, double k_, double vol_, double t_, double r_, double q_);
 
         /* get the x_right boundary value for the heat pde such that x_right > x */
         virtual double get_x_right();
@@ -54,8 +54,8 @@ class BlackScholesPutRight: public Gright{
         virtual Gright* clone() const;
 };
 
-class BlackScholesCallRight: public Gright{
-/* the boundary condition gright for the underlying heat pde for solving the black-scholes pde of a CALL*/
+class BsEuropeanCallRight: public Gright{
+/* the boundary condition gright for the underlying heat pde for solving the black-scholes pde of a EUROPEAN CALL*/
 
     private:
         double s;   // asset price at time 0
@@ -65,8 +65,12 @@ class BlackScholesCallRight: public Gright{
         double r;   // risk-free interest
         double q;   // continuous dividend rate
 
+        /* constants involved to transform BS PDE to Heat PDE */
+        double a;
+        double b;
+
     public:
-        BlackScholesCallRight(double s_, double k_, double vol_, double t_, double r_, double q_);
+        BsEuropeanCallRight(double s_, double k_, double vol_, double t_, double r_, double q_);
 
         /* get the x_right boundary value for the heat pde such that x_right > x */
         virtual double get_x_right();
@@ -78,5 +82,56 @@ class BlackScholesCallRight: public Gright{
         virtual Gright* clone() const;
 };
 
+class BsAmericanPutRight: public Gright{
+/* the boundary condition gright for the underlying heat pde for solving the black-scholes pde of a AMERICAN PUT */
+
+    private:
+        double s;   // asset price at time 0
+        double k;   // options strike
+        double vol; // volatility
+        double t;   // maturity
+        double r;   // risk-free interest
+        double q;   // continuous dividend rate
+
+    public:
+        BsAmericanPutRight(double s_, double k_, double vol_, double t_, double r_, double q_);
+
+        /* get the x_right boundary value for the heat pde such that x_right > x */
+        virtual double get_x_right();
+
+        /* the boundary condition equation */
+        virtual double operator()(double tau);
+
+        /* virtual copy constructor */
+        virtual Gright* clone() const;
+};
+
+class BsAmericanCallRight: public Gright{
+/* the boundary condition gright for the underlying heat pde for solving the black-scholes pde of a AMERICAN CALL*/
+
+    private:
+        double s;   // asset price at time 0
+        double k;   // options strike
+        double vol; // volatility
+        double t;   // maturity
+        double r;   // risk-free interest
+        double q;   // continuous dividend rate
+
+        /* constants involved to transform BS PDE to Heat PDE */
+        double a;
+        double b;
+
+    public:
+        BsAmericanCallRight(double s_, double k_, double vol_, double t_, double r_, double q_);
+
+        /* get the x_right boundary value for the heat pde such that x_right > x */
+        virtual double get_x_right();
+
+        /* the boundary condition equation */
+        virtual double operator()(double tau);
+
+        /* virtual copy constructor */
+        virtual Gright* clone() const;
+};
 
 #endif
