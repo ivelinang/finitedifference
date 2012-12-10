@@ -165,7 +165,9 @@ double BsPdeSolver::compute_theta(double alpha, int M){
     double price_1 = ((s_2 - s) * v_1 + (s - s_1) * v_2) / (s_2 - s_1);
     double price_2 = ((s_2 - s) * v_3 + (s - s_1) * v_4) / (s_2 - s_1);
 
-    double theta = (price_2 - price_1)/delta_tau;
+    // get delta_t and theta
+    double delta_t = 2 * delta_tau / (vol*vol);
+    double theta = (price_2 - price_1)/delta_t;
     return theta;
 }
 
