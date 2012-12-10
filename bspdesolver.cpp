@@ -53,10 +53,12 @@ double BsPdeSolver::compute_price(double alpha, int M){
     double s_1 = k * exp(x_1);
     double s_2 = k * exp(x_2);
 
+    /*
     cout << "x_compute " << x_compute << endl
          << "x_i " << x_1 << endl << "x_ii " << x_2 << endl
          << "s_i " << s_1 << endl << "s_ii " << s_2 << endl
          << "v_i " << v_1 << endl << "v_ii " << v_2 << endl;
+    */
 
     double price = ((s_2 - s) * v_1 + (s - s_1) * v_2) / (s_2 - s_1);
     return price;
