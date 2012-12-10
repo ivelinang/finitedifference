@@ -106,10 +106,10 @@ MatrixXd projected_sor(MatrixXd b, double alpha){
 
 
     //set up matrix A
-    MatrixXd A(MatrixXd::Zero(n-1, n-1));
-    for(int row = 0; row < n-1; row++){ A(row, row) = 1 + alpha; }
-    for(int row = 0; row < n-2; row++){ A(row, row+1) = -0.5 * alpha; }
-    for(int row = 1; row < n-1; row++){ A(row, row-1) = -0.5 * alpha; }
+    MatrixXd A(MatrixXd::Zero(n, n));
+    for(int row = 0; row < n; row++){ A(row, row) = 1 + alpha; }
+    for(int row = 0; row < n-1; row++){ A(row, row+1) = -0.5 * alpha; }
+    for(int row = 1; row < n; row++){ A(row, row-1) = -0.5 * alpha; }
 
     //stop criteria
     MatrixXd r0(b - A*x0);
