@@ -20,7 +20,7 @@ CC = g++
  
 CFLAGS =
  
-LIBS =
+LIBS = ../blackscholes/* ../heatpdesolvers/* ../linearalgebra/* ../utils/*
  
 RM = rm -rf
  

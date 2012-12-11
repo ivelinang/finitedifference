@@ -21,8 +21,8 @@
 #ifndef BLACKSCHOLESPDE_HPP
 #define BLACKSCHOLESPDE_HPP
 
-#include"wrapper.hpp"
-#include"heatpdesolver.hpp"
+#include"../utils/wrapper.hpp"
+#include"../heatpdesolvers/heatpdesolver.hpp"
 
 class BsPdeSolver{
 /* the solver is for European options AND American Options depends on the heat pde solver passed in */

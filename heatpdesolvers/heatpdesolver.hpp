@@ -12,12 +12,12 @@
 #ifndef HEATPDESOLVER_HPP
 #define HEATPDESOLVER_HPP
 
-#include"linearsolver.hpp"
-#include"wrapper.hpp"
-#include"checkearlyexercise.hpp"
-#include"gleft.hpp"
-#include"gright.hpp"
-#include"ftau.hpp"
+#include"../linearalgebra/linearsolver.hpp"
+#include"../utils/wrapper.hpp"
+#include"../blackscholes/checkearlyexercise.hpp"
+#include"../blackscholes/gleft.hpp"
+#include"../blackscholes/gright.hpp"
+#include"../blackscholes/ftau.hpp"
 
 #include<eigen3/Eigen/Dense>
 using namespace Eigen;

@@ -5,7 +5,7 @@
  */
 
 #include"heatpdesolver.hpp"
-#include"checkearlyexercise.hpp"
+#include"../blackscholes/checkearlyexercise.hpp"
 
 EarlyExerciseSolver::EarlyExerciseSolver(double xleft_, double xright_, double taufinal_,
                                             const Gleft &gleft_, const Gright &gright_, const Ftau &f_,
