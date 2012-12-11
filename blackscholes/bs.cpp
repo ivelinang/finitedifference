@@ -100,7 +100,7 @@ double bs::compute_put_theta(){
 bs::bs():S(0),K(0),T(0),sigma(0),r(0),q(0),d1(0),d2(0),c_price(0),p_price(0),c_delta(0),p_delta(0),gamma_(0),vega_(0){}
 
 //constructor with parameters
-bs::bs(double s, double k, double t, double vol, double rate=0, double div=0):S(s), K(k), T(t), sigma(vol), r(rate), q(div){
+bs::bs(double s, double k, double vol,double t, double rate=0, double div=0):S(s), K(k),sigma(vol), T(t), r(rate), q(div){
     //initialize other parameters
     d1 = compute_d1();
     d2 = compute_d2();

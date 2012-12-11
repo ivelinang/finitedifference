@@ -78,7 +78,7 @@ int main(){
     double r = 0.04;
     double q = 0.02;
 
-    bs close(s, k, t, vol, r, q);
+    bs close(s, k, vol, t, r, q);
     CholeskySolve cholesky;
     Sor sor12(1.2);
 

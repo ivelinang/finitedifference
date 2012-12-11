@@ -55,7 +55,7 @@ public:
     //constructor
     bs();
     //rate and div have default argument to be 0
-    bs(double s, double k, double t, double vol, double rate, double div);
+    bs(double s, double k, double vol, double t, double rate, double div);
 
     //getter functions to get the parameters (price, greeks) of the option
     double call_price();
