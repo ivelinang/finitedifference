@@ -22,6 +22,7 @@ __Yongyi Ye__
 
 
 *Structure*
+
 blackscholes: the folder contains the closed-form Black-Scholes formula calculator (bs.hpp/cpp); the solver to solve
               Black-Scholes PDE with the market parameters and a solver of choice( bspdesolver.hpp/cpp); a checker for checking
               early exercise when computing values for American options (checkearlyexercise.hpp/cpp); and the gleft, gright, f
