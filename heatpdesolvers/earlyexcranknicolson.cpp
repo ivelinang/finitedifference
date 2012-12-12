@@ -12,30 +12,21 @@ using namespace Eigen;
 using namespace std;
 
 
-
-//MatrixXd projected_sor(MatrixXd b, double alpha);
-/* Projected entry-by-entry SOR iterative method only for use in the Crank-Nicolson Heat PDE solver with
- *      early exercise. The omega, tolerance and initial guess are hard coded as well as the entries of
- *      tridiagonal matrix A in Crank-Nicolson.
- *
- * input: b: matrix b such that A * u_(m+1) = b_(m+1), used to calcule u(x, tau) at time m+1, m = 0:M-1
- *      alpha: the Courant constant, on which the entries of the tridiagonal matrix A depends.
- *
- * output: values for u(x, tau) at time m+1
- */
-
-
 EarlyExCrankNicolson::EarlyExCrankNicolson(double xleft_, double xright_, double taufinal_,
                                             const Gleft &gleft_, const Gright &gright_, const Ftau &f_,
-                                            const CheckEarlyExercise &checker_):
-                                        EarlyExerciseSolver(xleft_, xright_, taufinal_, gleft_, gright_, f_, checker_){}
+                                            const CheckEarlyExercise &checker_, double w_, double tol_):
+                                    EarlyExerciseSolver(xleft_, xright_, taufinal_, gleft_, gright_, f_, checker_),
+                                    w(w_), tol(tol_){}
 
-EarlyExCrankNicolson::EarlyExCrankNicolson(const EarlyExCrankNicolson &input): EarlyExerciseSolver(input){}
+EarlyExCrankNicolson::EarlyExCrankNicolson(const EarlyExCrankNicolson &input): EarlyExerciseSolver(input),
+                                                                               w(input.w), tol(input.tol){}
 
 EarlyExCrankNicolson::~EarlyExCrankNicolson(){}
 
 EarlyExCrankNicolson& EarlyExCrankNicolson::operator= (const EarlyExCrankNicolson &input){
     EarlyExerciseSolver::operator=(input);
+    this->w = input.w;
+    this->tol = input.tol;
     return *this;
 }
 
@@ -98,16 +89,12 @@ MatrixXd EarlyExCrankNicolson::projected_sor(MatrixXd b, double alpha, int N, in
     int n = b.rows(); // this n is 1 unit SMALLER than the n in the crank nicolson function above!!
                       // and it is 2 units SMALLER than the finite difference grid we build!!
 
-    /** the hard-coded parameters - change if necessary! **/
+    /** hard-coded - change if necessary! **/
     // initial guess
     //MatrixXd x0(MatrixXd::Constant(n,1,1));
     MatrixXd x0(MatrixXd::Constant(n,1,0));
     // initial  guess is the early exercise premium
     for(int i=0; i<n; i++){ x0(i, 0) = checker->check_early_exercise(N, M, i+1, m); }
-    // omega
-    double w = 1.2;
-    // tolerance
-    double tol = 0.000001;
     /** end **/
 
     //set up matrix A

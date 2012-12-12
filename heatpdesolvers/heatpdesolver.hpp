@@ -139,10 +139,13 @@ class EarlyExForwardEuler: public EarlyExerciseSolver{
 
 class EarlyExCrankNicolson: public EarlyExerciseSolver{
     private:
+        double w;   // omega for sor for fast convergence
+        double tol; // tolerance for sor for the consecutive guess
+
         MatrixXd projected_sor(MatrixXd b, double alpha, int N, int M, int m);
        /* Projected entry-by-entry SOR iterative method only for use in the Crank-Nicolson Heat PDE solver with
-        *      early exercise. The omega, tolerance and initial guess are hard coded as well as the entries of
-        *      tridiagonal matrix A in Crank-Nicolson (depends only on alpha).
+        *      early exercise. The SOR initial guess is hard coded as the early exercise premium values for the specific
+        *      pairs of x and tau. The omega and tolerance of SOR are provided with default values of 1.2 and 10^-6.
         *
         * input: b: matrix b such that A * u_(m+1) = b_(m+1), used to calcule u(x, tau) at time m+1, m = 0:M-1
         *      alpha: the Courant constant, on which the entries of the tridiagonal matrix A depends.
@@ -155,7 +158,8 @@ class EarlyExCrankNicolson: public EarlyExerciseSolver{
     public:
         EarlyExCrankNicolson(double xleft_, double xright_, double taufinal_,
                               const Gleft &gleft_, const Gright &gright_, const Ftau &f_,
-                              const CheckEarlyExercise &checker_);
+                              const CheckEarlyExercise &checker_,
+                              double w_ = 1.2, double tol_ = 0.000001);
         EarlyExCrankNicolson(const EarlyExCrankNicolson &input);
         virtual ~EarlyExCrankNicolson();
         virtual EarlyExCrankNicolson& operator= (const EarlyExCrankNicolson &input);
