@@ -136,7 +136,7 @@ double BsPdeSolver::compute_gamma(double alpha, int M){
 /* forward finite difference approx. of theta */
 double BsPdeSolver::compute_theta(double alpha, int M){
     MatrixXd soln(this->solve_pde(alpha, M));
-    int N = soln.cols();
+    int N = compute_n(alpha, M);
 
     // find i such that x_i <= x_compute <= x_i+1
     double x_compute = log(s/k);
