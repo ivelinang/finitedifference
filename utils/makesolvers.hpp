@@ -33,6 +33,8 @@
 /* European Call */
 BsPdeSolver make_euro_call_fe(double s, double k, double vol, double t, double r, double q);
 
+BsPdeSolver make_euro_call_be_lu(double s, double k, double vol, double t, double r, double q);
+
 BsPdeSolver make_euro_call_be_cholesky(double s, double k, double vol, double t, double r, double q);
 
 BsPdeSolver make_euro_call_be_sor(double s, double k, double vol, double t, double r, double q,

@@ -22,4 +22,6 @@ EarlyExerciseSolver::~EarlyExerciseSolver(){}
 EarlyExerciseSolver& EarlyExerciseSolver::operator= (const EarlyExerciseSolver &input){
     HeatPdeSolver::operator=(input);
     checker = input.checker;
+
+	return *this;
 }

@@ -31,6 +31,21 @@ BsPdeSolver make_euro_call_fe(double s, double k, double vol, double t, double r
     return result;
 }
 
+BsPdeSolver make_euro_call_be_lu(double s, double k, double vol, double t, double r, double q) {
+	BsEuropeanCallLeft left(s, k, vol, t, r, q);
+	BsEuropeanCallRight right(s, k, vol, t, r, q);
+	BsCallTau f(s, k, vol, t, r, q);
+
+	double xleft = left.get_x_left();
+	double xright = right.get_x_right();
+	double taufinal = f.get_tau_final();
+
+	LuNoPivSolve LuSolve ;
+	BackwardEuler be(xleft, xright, taufinal, left, right, f, LuSolve);
+	BsPdeSolver result(s, k, vol, t, r, q, be);
+	return result;
+}
+
 BsPdeSolver make_euro_call_be_cholesky(double s, double k, double vol, double t, double r, double q){
     BsEuropeanCallLeft left(s, k, vol, t, r, q);
     BsEuropeanCallRight right(s, k, vol, t, r, q);

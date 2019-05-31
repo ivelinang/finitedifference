@@ -13,9 +13,9 @@
  *
  */
 
-#include<math.h>
-#include<iostream>
-#include<eigen3/Eigen/Dense>
+#include <math.h>
+#include <iostream>
+#include <eigen3/Eigen/Dense>
 
 #include"linearsolver.hpp"
 #include"decomposer.hpp"
